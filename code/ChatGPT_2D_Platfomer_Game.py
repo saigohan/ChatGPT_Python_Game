@@ -34,6 +34,9 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
+        # Add a jump speed and a jumping flag
+        self.jump_speed = -10
+        self.jumping = False
 
     def update(self):
         # Update the player's position based on user input
@@ -42,6 +45,18 @@ class Player(pygame.sprite.Sprite):
             self.rect.x -= 5
         if keys[pygame.K_RIGHT]:
             self.rect.x += 5
+
+         # Update the player's jumping status
+        if self.jumping:
+            self.rect.y += self.jump_speed
+            self.jump_speed += 1
+            if self.rect.y > 230: # the initial y position
+                self.jumping = False
+                self.rect.y = 230
+                self.jump_speed = -10
+        # Check if the player should start jumping
+        if keys[pygame.K_SPACE] and not self.jumping:
+            self.jumping = True
 
 # Create a group to hold all the sprites
 all_sprites = pygame.sprite.Group()
@@ -60,6 +75,10 @@ while running:
             running = False
             pygame.quit()
             exit()
+        # Handle the player's jump movement
+        if event.type == KEYDOWN:
+            if event.key == K_SPACE:
+                player.jumping = True
 
     # Update sprites
     all_sprites.update()
