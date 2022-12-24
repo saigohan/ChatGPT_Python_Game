@@ -3,13 +3,15 @@ import pygame
 from pygame.locals import *
 from pygame.sprite import Sprite, Group
 from sys import exit
+import imageio
+
 # Initiate pygame & give permission
 pygame.init()
 
 # Set up the window
 X,Y=800,600
 screen = pygame.display.set_mode((X,Y))
-pygame.display.set_caption('My Game')
+pygame.display.set_caption('Hikari')
 
 # Background colour
 screen.fill('Black')
@@ -28,27 +30,6 @@ player = pygame.image.load('/Users/yonahbole/VsCode_Projects/Graphics/2D_wizard_
 player = pygame.transform.scale(player,(200,200))
 background = pygame.image.load('/Users/yonahbole/VsCode_Projects/Graphics/mountain.png')
 background = pygame.transform.scale(background,(X,Y)) #rescale image size
-
-# Set up the menu options
-option_rect = pygame.Rect(100, 100, 200, 50)
-
-def draw_menu():
-    # Draw the title text
-    title_text = title_font.render("My Game", True, (255, 255, 255))
-    screen.blit(title_text, (350, 50))
-
-    # Draw the start button
-    pygame.draw.rect(screen, (0, 255, 0), option_rect)
-    start_text = button_font.render("Start", True, (255, 255, 255))
-    screen.blit(start_text, (160, 112))
-
-    # Draw the instructions text
-    instructions = body_font.render("Use the arrow keys to move", True, (255, 255, 255))
-    screen.blit(instructions, (100, 200))
-
-    # Draw the additional text
-    additional = body_font.render("Press space to jump", True, (255, 255, 255))
-    screen.blit(additional, (100, 250))
 
 # Create a sprite for the player character
 class Player(pygame.sprite.Sprite):
@@ -89,6 +70,28 @@ all_sprites = pygame.sprite.Group()
 player = Player(0, 230) # coord
 all_sprites.add(player)
 
+# Set up the menu options
+def draw_menu():
+    # Load the menu images
+    background_image = pygame.image.load('/Users/yonahbole/VsCode_Projects/Graphics/night_pixel_background.jpeg')
+
+    # Draw the background image
+    screen.blit(background_image, (0, 0))
+
+    # Draw the title text
+    title_text = title_font.render("Hikari", True, (255, 255, 255))
+    screen.blit(title_text, (0.35*X, 100))
+
+    # Draw the instructions text
+    instruction_1 = body_font.render("Use the arrow keys to move", True, (255, 255, 255))
+    screen.blit(instruction_1, (100, 300))
+
+    instruction_2 = body_font.render("Press space to jump", True, (255, 255, 255))
+    screen.blit(instruction_2, (100, 350))
+
+    instruction_3 = body_font.render("Click on any key to START", True, (255, 255, 255))
+    screen.blit(instruction_3, (100, 400))
+
 # Initialize the game state
 in_menu = True
 # Set up the menu loop
@@ -98,15 +101,12 @@ while in_menu:
         if event.type == pygame.QUIT:
             pygame.quit()
             exit()
-        elif event.type == pygame.MOUSEBUTTONDOWN:
-            # Check if the user clicked on the start button
-            if option_rect.collidepoint(pygame.mouse.get_pos()):
-                in_menu = False
+        elif event.type == pygame.KEYDOWN: # if any key is typedÒ
+            in_menu = False # start the game
     # Draw the menu
     draw_menu()
     # Update the display
     pygame.display.update()
-
 
 # Setting the playing loop
 while not in_menu:
@@ -126,8 +126,6 @@ while not in_menu:
     # Load images
     screen.blit(background,(0,0)) #1st image is below the others
     all_sprites.draw(screen)
-    #screen.blit(player,(0,Y*0.46)) #coords = distance from top left corner
-    #screen.blit(text,(X*0.25,0))
     pygame.display.update()
     # Limit frame rate (fps ceilling)
     clock.tick(60)
