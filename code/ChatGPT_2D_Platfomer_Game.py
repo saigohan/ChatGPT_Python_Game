@@ -30,35 +30,35 @@ def draw_ground():
 # Player Animation
 # To animate sprite sheet
 animation_list = []
-animation_steps = [5,5,5,5,5,5,5] # (ordered from sprite sheet) number of frames per animation (e.g. action)
+animation_steps = [2,5,14,8,8,11,11,5,7] # (ordered from sprite sheet) number of frames per animation (e.g. action)
 action = 0
 last_update = pygame.time.get_ticks()
-animation_cooldown = [300,60,60,250,250,250,250] # milliseconds
+animation_cooldown = [400,300,250,60,60,150,150,250,250] # milliseconds
 frame = 0 # frame that start the animation
 set_counter = 0
 # To use sprite sheet
-sprite_sheet_image = pygame.image.load('ChatGPT_Pygame/sheet_sprite_player.png').convert_alpha()
+sprite_sheet_image = pygame.image.load('ChatGPT_Pygame/sprite_sheet_player.png').convert_alpha()
 sprite_sheet = spritesheet.SpriteSheet(sprite_sheet_image)
-total_num_frames = 35
+total_num_frames = 71
 for animation in animation_steps:
     temporary_list = []
     for _ in range(animation):
-        temporary_list.append(sprite_sheet.get_image(set_counter, (sprite_sheet_image.get_width()/total_num_frames)-0.5, sprite_sheet_image.get_height(), 1)) #(frame,width,height,scale) & -0.5 for adjustements
+        temporary_list.append(sprite_sheet.get_image(set_counter, (sprite_sheet_image.get_width()/total_num_frames), sprite_sheet_image.get_height(), 1)) #(frame,width,height,scale)
         set_counter += 1
     animation_list.append(temporary_list)
 
 # Game Loop
 run = True
-action = 4 # start in sleep animation
+action = 0 # start in sleep animation
 while run:
     clock.tick(40)
     draw_background()
     draw_ground()
     # Background scrolling with key pressed
     key = pygame.key.get_pressed()
-    if key[pygame.K_LEFT] and scroll > 0:
+    if key[pygame.K_LEFT] and scroll > 0: # left map border
         scroll -= 5
-    if key[pygame.K_RIGHT]and scroll < 1850:
+    if key[pygame.K_RIGHT]and scroll < 1850: # right map border
         scroll += 5
      # Update animation
     current_time = pygame.time.get_ticks()
@@ -68,36 +68,36 @@ while run:
         if frame >= len(animation_list[action]):
             frame = 0 # To stop when frames in list are done
     # Load sprite sheets
-    screen.blit(animation_list[action][frame],(100, Y-173))
+    # Load sprite sheets
+    image = animation_list[action][frame]
+    if action == 5 and key[pygame.K_LEFT]:  # If the current action is the left jump animation and the left key is being held down
+        image = pygame.transform.flip(image, True, False)  # Flip the image horizontally
+    screen.blit(image, (100, Y-185))
     # Event handler
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
-                action = 2 # walk left
+                action = 4  # Walk left
                 frame = 0
             elif event.key == pygame.K_RIGHT:
-                action = 1 # walk right
+                action = 3  # Walk right
                 frame = 0
             elif event.key == pygame.K_SPACE:
-                action = 3 # jump
-                frame = 0
-            else:
-                action = 0 # iddle
+                action = 5  # Jump
                 frame = 0
         elif event.type == pygame.KEYUP:
-            if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT or event.key == pygame.K_SPACE:
-                if pygame.key.get_pressed()[pygame.K_RIGHT]:
-                    # Right key is still being held down, set action to walking right animation
-                    action = 1
+            # repeat the other keys here to avoid having a still player after the jump)
+            if event.key in [pygame.K_LEFT, pygame.K_RIGHT, pygame.K_SPACE]:
+                if pygame.key.get_pressed()[pygame.K_LEFT]:
+                    action = 4  # Walk left
                     frame = 0
-                elif pygame.key.get_pressed()[pygame.K_LEFT]:
-                    # Left key is still being held down, set action to walking left animation
-                    action = 2
+                elif pygame.key.get_pressed()[pygame.K_RIGHT]:
+                    action = 3  # Walk right
                     frame = 0
                 else:
-                    action = 0 # iddle
+                    action = 1  # Idle
                     frame = 0
     # Update screen
     pygame.display.update()
