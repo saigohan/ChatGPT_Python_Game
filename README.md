@@ -1,4 +1,5 @@
 # I used ChatGPT to create an entire video game with Python
+### (this project is not finished yet)
 
 
 ![image](https://res.craft.do/user/full/7a93547b-a2a3-6209-a5e3-1a49258c4f73/doc/B34D88DD-3909-49E3-8E78-0EB06EE01EFA/E64E0FF2-2B70-44D4-A3D8-9537724A158E_2/i9toSYsMuJjNCbKD9bYUtDlUkzHzjY9SzfCkqQLtC5wz/PngItem_4394113.png)
