@@ -9,8 +9,8 @@ scroll = 0
 # Parallax background
 # Create a list of the images
 game_background =[]
-for i in range (1,5):
-    image = pygame.image.load("ChatGPT_Pygame/background_plx-"+ str(i)+".png").convert_alpha()
+for i in range (1,5): # iterate the 4 background images
+    image = pygame.image.load("background_plx-"+ str(i)+".png").convert_alpha()
     image = pygame.transform.scale(image, (X-50, Y-100))
     game_background.append(image)
 # Create scrolling images function
@@ -21,7 +21,7 @@ def draw_background():
             screen.blit(image, ((x * game_background[0].get_width()) - scroll * scroll_speed, 0)) # x * game_background image width
             scroll_speed += 0.2 # this creates the parallax effect! Images closer to player = moving faster
 # Add the ground
-ground = pygame.image.load("ChatGPT_Pygame/background_ground.png")
+ground = pygame.image.load("background_ground.png")
 def draw_ground():
     for x in range (17):
         scroll_speed = 2
@@ -35,9 +35,9 @@ action = 0
 last_update = pygame.time.get_ticks()
 animation_cooldown = [400,300,250,60,60,150,150,250,250] # milliseconds
 frame = 0 # frame that start the animation
-set_counter = 0
 # To use sprite sheet
-sprite_sheet_image = pygame.image.load('ChatGPT_Pygame/sprite_sheet_player.png').convert_alpha()
+set_counter = 0
+sprite_sheet_image = pygame.image.load("sprite_sheet_player.png").convert_alpha()
 sprite_sheet = spritesheet.SpriteSheet(sprite_sheet_image)
 total_num_frames = 71
 for animation in animation_steps:
@@ -60,14 +60,13 @@ while run:
         scroll -= 5
     if key[pygame.K_RIGHT]and scroll < 1850: # right map border
         scroll += 5
-     # Update animation
+    # Update animation
     current_time = pygame.time.get_ticks()
     if current_time - last_update >= animation_cooldown[action]:
         frame += 1 # Go to next frame after x milliseconds
         last_update = current_time # Reset cooldown
         if frame >= len(animation_list[action]):
             frame = 0 # To stop when frames in list are done
-    # Load sprite sheets
     # Load sprite sheets
     image = animation_list[action][frame]
     if action == 5 and key[pygame.K_LEFT]:  # If the current action is the left jump animation and the left key is being held down
@@ -88,7 +87,7 @@ while run:
                 action = 5  # Jump
                 frame = 0
         elif event.type == pygame.KEYUP:
-            # repeat the other keys here to avoid having a still player after the jump)
+            # repeat the other keys here to avoid having a still player after the jump
             if event.key in [pygame.K_LEFT, pygame.K_RIGHT, pygame.K_SPACE]:
                 if pygame.key.get_pressed()[pygame.K_LEFT]:
                     action = 4  # Walk left
@@ -97,7 +96,7 @@ while run:
                     action = 3  # Walk right
                     frame = 0
                 else:
-                    action = 1  # Idle
+                    action = 1  # Idle before any key is pressed
                     frame = 0
     # Update screen
     pygame.display.update()
