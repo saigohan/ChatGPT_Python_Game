@@ -1,4 +1,4 @@
-# I used ChatGPT to create an entire video game with Python
+# I used ChatGPT to create a video game
 ### (this project is not finished yet)
 
 
@@ -18,9 +18,9 @@ I wanted to test the limits of this **new AI bot** and see if **chatGPT** could 
 
 `Pygame` is an open source `Python` programming language library for making video games. It's not a game development platform like Unity or Unreal Engine which are very popular among game designers. Pygame is easy to install lightweight, but has a lot of limitations and is better suited for light video games such as a `2D platformer.` Unlike the popular game engines, when using Pygame, every aspect of the game needs to be written in a line of code, which can quickly become tedious. That's why I wanted `chatGPT` to provide some help.
 
-![image](https://res.craft.do/user/full/7a93547b-a2a3-6209-a5e3-1a49258c4f73/doc/B34D88DD-3909-49E3-8E78-0EB06EE01EFA/E99AA06E-B9A3-4E7F-8EC3-A8801DB1F80E_2/6r3NVyYgblqcQ3o6L1yM1u9Fqzt6CLvme7iDi0Df4S4z/PngItem_1585033.png)
+Video of the current progress:
 
-Image from pngitem
+https://user-images.githubusercontent.com/80701265/225968924-e849df98-9083-4639-8f5a-b4cde9e3571f.mp4
 
 ### Let’s Get Started!
 
